@@ -1,0 +1,17 @@
+
+
+
+
+
+git clone https://github.com/divyanshdixit/javascript-batch-58.git
+
+// git@github.com:divyanshdixit/javascript-batch-58.git
+
+
+git stash -u
+
+git pull (run on main branch )
+
+git pull origin main (your branch)
+
+git stash apply
