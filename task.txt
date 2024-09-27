@@ -1,0 +1,2 @@
+// reverse a given string:
+'mohit' => 'tihom'
