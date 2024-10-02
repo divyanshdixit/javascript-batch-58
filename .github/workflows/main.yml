@@ -1,0 +1,61 @@
+# name - workflow name
+name: example Deploy
+
+on:
+  push:
+    branches:
+      - main # this is the target branch whn this pipline will work, we can give multiple branches
+
+env:
+  CI: true # it will check for linting errors, if any then deployment will not happen
+
+jobs: # we'll mention what things will run here
+  build: 
+    name: Build
+    runs-on: ubuntu-latest # server
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: setup Node
+        uses: actions/setup-node@v1
+        with: 
+          node-version: 20
+
+      - name: install dependencies
+        uses: bahmutov/npm-install@v1
+
+      - name: build project
+        run: npm run build
+        env: 
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+
+      - name: upload build files
+        uses: actions/upload-artifact@v2
+        with:
+          name: production-files
+          path: ./client/build
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: production-build
+          path: ./client/build
+
+      - name: Deploy to github pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.TOKEN }}
+          publish_dir: ./client/build
+    
+
+  
+      
