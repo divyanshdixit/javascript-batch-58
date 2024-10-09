@@ -1,2 +1,4 @@
 // reverse a given string:
 'mohit' => 'tihom'
+
+table => header black, sorting of table columsn, pagination, last table column 2 buttons (edit, delete)
